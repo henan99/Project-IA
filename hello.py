@@ -10,6 +10,6 @@ def main():
 
 
 
-def new_function(x):
+def new_function(x, z):
     x = x+1
-    return x**2 
+    return x**2/z
