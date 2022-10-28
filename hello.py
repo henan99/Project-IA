@@ -1,6 +1,9 @@
 import numpy as np 
 import matplotlib.pyplot as plt 
 
+from sklearn.decomposition import PCA
+
+
 #i added a comment lol
 
 
@@ -13,7 +16,6 @@ def main():
 def new_function(x, z):
     x = x+1
     return x**2/z
-    return x**2 
 
 def new_func2(x):
     y = np.zeros(x)
