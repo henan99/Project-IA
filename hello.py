@@ -1,7 +1,7 @@
 import numpy as np 
 import matplotlib.pyplot as plt 
 
-
+#i added a comment lol
 
 
 def main():
@@ -11,4 +11,5 @@ def main():
 
 
 def new_function(x):
+    x = x+1
     return x**2 
