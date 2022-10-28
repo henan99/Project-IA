@@ -13,3 +13,15 @@ def main():
 def new_function(x):
     x = x+1
     return x**2 
+
+def new_func2(x):
+    y = np.zeros(x)
+    
+    return y
+y = new_func2(10)
+print(y)
+
+x = np.linspace(1,10)
+plt.figure(1)
+plt.plot(x,new_function(x))
+plt.show()
