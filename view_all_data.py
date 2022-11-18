@@ -72,3 +72,5 @@ plt.figure()
 plt.bar(x,pcavalsratio)
 plt.show()
 
+
+
