@@ -22,9 +22,9 @@ pulsar_file_df.columns = ['mean_ip', 'std_ip', 'kurtosis_ip', 'skewness_ip',
 
 #print(pulsar_file_df.drop(['class'], axis=1).corr())
 
-#plt.figure(figsize=(8,6))
-#_= sns.heatmap(pulsar_file_df.drop(['class'], axis=1).corr(), annot=True)
-#plt.show()
+plt.figure(figsize=(8,6))
+_= sns.heatmap(pulsar_file_df.drop(['class'], axis=1).corr(), annot=True)
+plt.show()
 
 #plt.figure()
 #_ = sns.pairplot(pulsar_file_df, kind='scatter', hue='class', plot_kws=dict(ec='w'))
