@@ -29,3 +29,6 @@ plt.show()
 #plt.figure()
 #_ = sns.pairplot(pulsar_file_df, kind='scatter', hue='class', plot_kws=dict(ec='w'))
 #plt.show()
+
+
+# doing PCA 
