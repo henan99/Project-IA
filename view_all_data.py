@@ -3,6 +3,9 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 import numpy.polynomial.polynomial as poly
+from sklearn.preprocessing import StandardScaler
+from  sklearn.decomposition import PCA 
+from sklearn.model_selection import train_test_split
 
 
 pulsar_file = 'data/HTRU2/HTRU_2.csv'
@@ -31,4 +34,41 @@ plt.show()
 #plt.show()
 
 
-# doing PCA 
+# doing PCA
+
+
+features = pulsar_file_df.columns
+
+featureVector = pulsar_file_df[features]
+targets = pulsar_file_df['class']
+
+scale = StandardScaler()
+featureVector = scale.fit_transform(featureVector)
+
+
+pca = PCA()
+pca.fit(featureVector)
+featureVectorT = pca.transform(featureVector)
+
+pcavecs = pca.components_
+pcavals = pca.explained_variance_ 
+pcavalsratio = pca.explained_variance_ratio_ 
+
+
+plt.figure(1,(12,7))
+plt.plot(featureVectorT[targets ==0,0],featureVectorT[targets ==0,1],"x",label ="0")
+plt.plot(featureVectorT[targets ==1,0],featureVectorT[targets ==1,1],"x",label = "1")
+plt.quiver(pcavecs[0,0],pcavecs[0,1],scale=2)
+plt.quiver(pcavecs[1,0],pcavecs[1,1],scale=2)
+plt.xlabel("cool")
+plt.grid(True)
+plt.legend()
+plt.show()
+print(pcavals)
+print(featureVectorT)
+
+x = np.arange(1,len(pcavalsratio)+1)
+plt.figure()
+plt.bar(x,pcavalsratio)
+plt.show()
+
