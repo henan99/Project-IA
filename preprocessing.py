@@ -3,6 +3,7 @@ import pandas as pd
 import keras
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
+from sklearn.pipeline import Pipeline
 
 #imports data and returns it as two vectors for data and labels
 def data_as_vector():
@@ -34,16 +35,26 @@ def check_missing():
     else:
         print("missing labels")
 
-def scale_onehot_and_split(featureVector, targets):
+def tt_split(featureVector, targets):
     seed = 8+18+12 #fixed seed
     #fixed seed split 75-25
     X_train, X_test, y_train, y_test = train_test_split(featureVector, targets, test_size=0.25, random_state=seed)
+    return X_train, X_test, y_train, y_test
 
-    scale = StandardScaler()
-    X_train = scale.fit_transform(X_train) # normalize data
-    X_test = scale.transform(X_test)
 
+def pipeline(X_train, X_test, y_train, y_test):
+    # pipeline for X: scale
+    pipeX = Pipeline([('scaler', StandardScaler())])
+    X_train = pipeX.fit_transform(X_train) # normalize data
+    X_test = pipeX.transform(X_test)
+
+    # Prozess for y: onehot
     y_train_onehot = keras.utils.to_categorical(y_train)
     y_test_onehot = keras.utils.to_categorical(y_test)
 
     return X_train, X_test, y_train_onehot, y_test_onehot
+
+# returns X_train, X_test, y_train, y_test after the preprocessing process of 'pipline'
+def preprocess():
+    X_train, X_test, y_train, y_test = tt_split(data_as_vector())
+    return pipeline(X_train, X_test, y_train, y_test)
