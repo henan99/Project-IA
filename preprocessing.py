@@ -56,5 +56,6 @@ def pipeline(X_train, X_test, y_train, y_test):
 
 # returns X_train, X_test, y_train, y_test after the preprocessing process of 'pipline'
 def preprocess():
-    X_train, X_test, y_train, y_test = tt_split(data_as_vector())
+    data1, data2 = data_as_vector()
+    X_train, X_test, y_train, y_test = tt_split(data1, data2)
     return pipeline(X_train, X_test, y_train, y_test)
