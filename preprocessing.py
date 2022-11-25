@@ -21,6 +21,19 @@ def data_as_vector():
     
     return featureVector, targets
 
+def check_missing():
+    #chercher des données manquantes
+    X,y = data_as_vector()
+
+    if(np.sum(~np.isfinite(X)).aggregate(np.sum) == 0): # aggregate sums over different pandas categories
+        print("no missing data in attributes")
+    else:
+        print("there are attributes missing")
+    if(np.sum(~np.isfinite(y)) == 0): # True wherever pos-inf or neg-inf or nan
+        print("no lables missing")
+    else:
+        print("missing labels")
+
 def scale_onehot_and_split(featureVector, targets):
     seed = 8+18+12 #fixed seed
     #fixed seed split 75-25
