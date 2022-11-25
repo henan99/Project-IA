@@ -46,28 +46,12 @@ def pipeline(X_train, X_test, y_train, y_test):
     X_train = pipeX.fit_transform(X_train) # normalize data
     X_test = pipeX.transform(X_test)
 
-    # Prozess for y: onehot
-    y_train_onehot = keras.utils.to_categorical(y_train)
-    y_test_onehot = keras.utils.to_categorical(y_test)
-
-    return X_train, X_test, y_train_onehot, y_test_onehot
+    return X_train, X_test, y_train, y_test
 
 
 # returns X_train, X_test, y_train, y_test after the preprocessing process of 'pipline'
+
 def preprocess(seed = 8+18+12):
     data1, data2 = data_as_vector()
     X_train, X_test, y_train, y_test = tt_split(data1, data2, seed = seed)
     return pipeline(X_train, X_test, y_train, y_test)
-
-def pipeline_without_onehot(X_train, X_test, y_train, y_test):
-    # pipeline for X: scale
-    pipeX = Pipeline([('scaler', StandardScaler())])
-    X_train = pipeX.fit_transform(X_train) # normalize data
-    X_test = pipeX.transform(X_test)
-
-    return X_train, X_test, y_train, y_test
-
-def preprocess_without_onehot(seed = 8+18+12):
-    data1, data2 = data_as_vector()
-    X_train, X_test, y_train, y_test = tt_split(data1, data2, seed = seed)
-    return pipeline_without_onehot(X_train, X_test, y_train, y_test)
