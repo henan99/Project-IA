@@ -74,3 +74,22 @@ plt.show()
 
 
 
+
+
+
+#### neural net
+
+
+xTrain, xTest, yTrain, yTest = train_test_split(featureVector, targets, test_size = 0.1, random_state = 42)
+m,n = xTrain.shape
+# defining model
+simpleAnn = tf.keras.models.Sequential([
+    tf.keras.layers.Input(shape = (n, )),
+    tf.keras.layers.Dense(32, activation = 'relu'),
+    tf.keras.layers.Dense(64, activation = 'relu'),
+    tf.keras.layers.Dropout(0.07),
+    tf.keras.layers.Dense(128, activation = 'relu'),
+    tf.keras.layers.Dense(1, activation = 'sigmoid')
+])
+
+
