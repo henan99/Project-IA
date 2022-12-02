@@ -16,7 +16,7 @@ pulsar_file_df.columns = ['mean_ip', 'std_ip', 'kurtosis_ip', 'skewness_ip',
                           'mean_dm', 'std_dm', 'kurtosis_dm', 'skewness_dm',
                           'class']
 
-
+print(pulsar_file_df)
 
 
 #print(pulsar_file_df.head(10)[pulsar_file_df["class"]==0])
