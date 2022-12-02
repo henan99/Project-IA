@@ -12,12 +12,11 @@ def data_as_vector():
     pulsar_file_df = pd.DataFrame(pd.read_csv(pulsar_file, header=None))
     #add headers
     pulsar_file_df.columns = ['mean_ip', 'std_ip', 'kurtosis_ip', 'skewness_ip',
-                            'mean_dm', 'std_dm', 'kurtosis_dm', 'skewness_dm',
-                            'class']
+                            'mean_dm', 'std_dm', 'kurtosis_dm', 'skewness_dm',"class"]
 
     features = pulsar_file_df.columns
-
-    featureVector = pulsar_file_df[features] #data vector
+    print(features)
+    featureVector = pulsar_file_df[features[:-1]] #data vector
     targets = pulsar_file_df['class'] #labels
     
     return featureVector, targets
