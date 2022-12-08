@@ -1,0 +1,15 @@
+import numpy as np
+import preprocessing as prep
+from sklearn.metrics import  confusion_matrix
+from sklearn.ensemble import RandomForestClassifier
+
+
+X_train, X_test, y_train, y_test = prep.X_train, prep.X_test, prep.y_train, prep.y_test
+
+RFC = RandomForestClassifier(n_jobs=2,n_estimators=10)
+a = RFC.fit(X_train,y_train)
+rfc_predict = RFC.predict(X_test)
+print(confusion_matrix(y_test, rfc_predict))
+score = RFC.score(X_test, y_test)
+print('scoreRFC:', score)
+print('score_train:', RFC.score(X_train, y_train))
