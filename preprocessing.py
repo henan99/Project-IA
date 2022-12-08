@@ -54,3 +54,5 @@ def preprocess(seed = 8+18+12):
     data1, data2 = data_as_vector()
     X_train, X_test, y_train, y_test = tt_split(data1, data2, seed = seed)
     return pipeline(X_train, X_test, y_train, y_test)
+
+X_train, X_test, y_train, y_test = preprocess(seed=0)
