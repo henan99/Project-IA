@@ -1,15 +1,24 @@
 import numpy as np
-import preprocessing as prep
-from sklearn.metrics import  confusion_matrix
-from sklearn.ensemble import RandomForestClassifier
+import matplotlib.pyplot as plt
 
+import preprocessing as prep
+
+from sklearn.metrics import  confusion_matrix, ConfusionMatrixDisplay
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import recall_score
 
 X_train, X_test, y_train, y_test = prep.X_train, prep.X_test, prep.y_train, prep.y_test
 
 RFC = RandomForestClassifier(n_jobs=2,n_estimators=10)
 a = RFC.fit(X_train,y_train)
 rfc_predict = RFC.predict(X_test)
-print(confusion_matrix(y_test, rfc_predict))
+
+cm = confusion_matrix(y_test, rfc_predict)
+print(cm)
+
 score = RFC.score(X_test, y_test)
-print('scoreRFC:', score)
+print("recall",recall_score(y_test, rfc_predict))
 print('score_train:', RFC.score(X_train, y_train))
+
+ConfusionMatrixDisplay(confusion_matrix = cm, display_labels= RFC.classes_).plot()
+plt.show()
