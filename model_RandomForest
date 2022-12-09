@@ -14,22 +14,28 @@ def evaluate(RFC_var):
     rfc_predict = RFC_var.predict(X_test)
 
     cm = confusion_matrix(y_test, rfc_predict)
-    print(cm)
+    #print(cm)
 
     score = RFC_var.score(X_test, y_test)
-    print(score)
-    print("recall",recall_score(y_test, rfc_predict))
-    print('score_train:', RFC_var.score(X_train, y_train))
+    print("score:",score)
+    print("recall",recall_score(y_test, rfc_predict),"\n")
+    #print('score_train:', RFC_var.score(X_train, y_train))
     # Sur apprentissage!
 
-    ConfusionMatrixDisplay(confusion_matrix = cm, display_labels= RFC_var.classes_).plot()
-    plt.show()
+    #ConfusionMatrixDisplay(confusion_matrix = cm, display_labels= RFC_var.classes_).plot()
+    #plt.show()
 
 RFC = RandomForestClassifier(n_jobs=2,n_estimators=10)
 #evaluate(RFC)
 
-RFC_2 = RandomForestClassifier(n_jobs=2, n_estimators=10,min_samples_split=15)
-#evaluate(RFC_2)
+samplesplits = np.arange(2,28,2)
 
-RFC_3 = RandomForestClassifier(n_jobs=2, n_estimators=100,max_depth = 5)
-evaluate(RFC_3)
+for split in samplesplits:
+    RFC_2 = RandomForestClassifier(n_jobs=2, n_estimators=100,min_samples_split=split)
+    #evaluate(RFC_2)
+
+depths = np.arange(2,15,1)
+
+for dep in depths:
+    RFC_3 = RandomForestClassifier(n_jobs=2, n_estimators=100,max_depth = dep)
+    evaluate(RFC_3)
