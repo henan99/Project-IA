@@ -9,16 +9,27 @@ from sklearn.metrics import recall_score
 
 X_train, X_test, y_train, y_test = prep.X_train, prep.X_test, prep.y_train, prep.y_test
 
+def evaluate(RFC_var):
+    RFC_var.fit(X_train,y_train)
+    rfc_predict = RFC_var.predict(X_test)
+
+    cm = confusion_matrix(y_test, rfc_predict)
+    print(cm)
+
+    score = RFC_var.score(X_test, y_test)
+    print(score)
+    print("recall",recall_score(y_test, rfc_predict))
+    print('score_train:', RFC_var.score(X_train, y_train))
+    # Sur apprentissage!
+
+    ConfusionMatrixDisplay(confusion_matrix = cm, display_labels= RFC_var.classes_).plot()
+    plt.show()
+
 RFC = RandomForestClassifier(n_jobs=2,n_estimators=10)
-a = RFC.fit(X_train,y_train)
-rfc_predict = RFC.predict(X_test)
+#evaluate(RFC)
 
-cm = confusion_matrix(y_test, rfc_predict)
-print(cm)
+RFC_2 = RandomForestClassifier(n_jobs=2, n_estimators=10,min_samples_split=15)
+#evaluate(RFC_2)
 
-score = RFC.score(X_test, y_test)
-print("recall",recall_score(y_test, rfc_predict))
-print('score_train:', RFC.score(X_train, y_train))
-
-ConfusionMatrixDisplay(confusion_matrix = cm, display_labels= RFC.classes_).plot()
-plt.show()
+RFC_3 = RandomForestClassifier(n_jobs=2, n_estimators=100,max_depth = 5)
+evaluate(RFC_3)
