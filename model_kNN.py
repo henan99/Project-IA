@@ -1,7 +1,7 @@
 #%%
 import preprocessing as prep
 import numpy as np
-from sklearn.metrics import confusion_matrix, roc_auc_score, recall_score
+from sklearn.metrics import confusion_matrix, roc_auc_score, recall_score, precision_score
 from sklearn.preprocessing import PolynomialFeatures
 from sklearn.decomposition import PCA
 from sklearn.neighbors import KNeighborsClassifier
@@ -27,6 +27,7 @@ recall_test = recall_score(y_test, y_pred)
 print('score_train:', score_train)
 print('score_test:', score_test)
 print('recall_test:', recall_test)
+print('precision:', precision_score(y_test, y_pred))
 print(confusion_matrix(y_test, y_pred))
 
 print("best parapeter: ", model.best_params_)
@@ -47,6 +48,7 @@ recall_test = recall_score(y_test, y_pred)
 print('score_train:', score_train)
 print('score_test:', score_test)
 print('recall_test:', recall_test)
+print('precision:', precision_score(y_test, y_pred))
 print(confusion_matrix(y_test, y_pred))
 
 # %%
