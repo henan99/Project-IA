@@ -1,3 +1,5 @@
+#%%
+
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -9,6 +11,8 @@ from sklearn.metrics import recall_score
 
 X_train, X_test, y_train, y_test = prep.X_train, prep.X_test, prep.y_train, prep.y_test
 
+#%%
+
 def evaluate(RFC_var):
     RFC_var.fit(X_train,y_train)
     rfc_predict = RFC_var.predict(X_test)
@@ -17,22 +21,58 @@ def evaluate(RFC_var):
     #print(cm)
 
     score = RFC_var.score(X_test, y_test)
-    print("score:",score)
-    print("recall",recall_score(y_test, rfc_predict),"\n")
+    #print("score:",score)
+    #print("recall",recall_score(y_test, rfc_predict),"\n")
+
+    return score, recall_score(y_test, rfc_predict)
+
     #print('score_train:', RFC_var.score(X_train, y_train))
     # Sur apprentissage!
 
     #ConfusionMatrixDisplay(confusion_matrix = cm, display_labels= RFC_var.classes_).plot()
     #plt.show()
 
+#%%
+
 RFC = RandomForestClassifier(n_jobs=2,n_estimators=10)
 #evaluate(RFC)
 
-samplesplits = np.arange(2,28,2)
+#%%
 
-for split in samplesplits:
-    RFC_2 = RandomForestClassifier(n_jobs=2, n_estimators=100,min_samples_split=split)
-    #evaluate(RFC_2)
+plt.figure()
+
+samplesplits = np.arange(2,28,2)
+testvals = np.zeros(10*len(samplesplits))
+recallvals = np.zeros(10*len(samplesplits))
+
+for i in range(len(samplesplits)) :
+#for split in samplesplits:
+    for j in range(10):
+        RFC_2 = RandomForestClassifier(n_jobs=2, n_estimators=100,min_samples_split=samplesplits[i])
+        testvals[i*10+j], recallvals[i*10+j] = evaluate(RFC_2)
+        #plt.plot(samplesplits[i],recall,lw = 0,marker ='.',ms = 0.9)
+
+#%%
+
+plt.plot(
+    np.repeat(samplesplits,10),
+    testvals,
+    lw=0,marker=".",ms = 1.5,color='k',
+    label = "individual accuracies")
+plt.plot(
+    samplesplits,
+    np.average(np.reshape(testvals,(len(samplesplits),10)), axis=1),
+    color = 'blue',
+    label="average"
+)
+plt.ylabel("accuracy")
+plt.ylim(0.97,0.98)
+plt.xlabel("minimum samples split")
+plt.legend()
+plt.savefig("Graphics/forest_samplesplits.pdf")
+plt.show()
+
+#%%
 
 depths = np.arange(2,15,1)
 
