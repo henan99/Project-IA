@@ -30,5 +30,23 @@ print('recall_test:', recall_test)
 print(confusion_matrix(y_test, y_pred))
 
 print("best parapeter: ", model.best_params_)
-print("best score: ", model.best_score_)
+print("best score: ", model.best_score_)  # but as far as I see, this is not a score related to the test-data !??
+# %%
+
+model = KNeighborsClassifier(n_neighbors=3)
+model.fit(X_train, y_train)
+
+#%%
+
+y_pred = model.predict(X_test)
+
+score_train = model.score(X_train, y_train)
+score_test = model.score(X_test, y_test)
+recall_test = recall_score(y_test, y_pred)
+
+print('score_train:', score_train)
+print('score_test:', score_test)
+print('recall_test:', recall_test)
+print(confusion_matrix(y_test, y_pred))
+
 # %%
