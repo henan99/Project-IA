@@ -5,7 +5,7 @@ import numpy as np
 from sklearn.svm import SVC
 import preprocessing as prep
 from sklearn.model_selection import GridSearchCV
-from sklearn.metrics import confusion_matrix, roc_auc_score
+from sklearn.metrics import confusion_matrix, roc_auc_score, recall_score
 
 X_train, X_test, y_train, y_test = prep.preprocess(seed=3)
 #%%
@@ -23,9 +23,11 @@ model.fit(X_train, y_train)
 
 score = model.score(X_test, y_test)
 y_pred = model.predict(X_test)
+recall_test = recall_score(y_test, y_pred)
 
-print('testscore', score)
 print('train_score', model.score(X_train, y_train))
-print(model.best_estimator_, model.best_params_, model.best_score_)
+print('testscore', score)
+print('recall_test:', recall_test)
+print(model.best_estimator_, model.best_params_)#,  model.best_score_)
 print(confusion_matrix(y_test, y_pred))
 # %%
