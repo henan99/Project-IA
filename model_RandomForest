@@ -8,6 +8,7 @@ import preprocessing as prep
 from sklearn.metrics import  confusion_matrix, ConfusionMatrixDisplay
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import recall_score
+from sklearn.metrics import precision_score
 
 X_train, X_test, y_train, y_test = prep.X_train, prep.X_test, prep.y_train, prep.y_test
 
@@ -21,10 +22,9 @@ def evaluate(RFC_var):
     #print(cm)
 
     score = RFC_var.score(X_test, y_test)
-    #print("score:",score)
-    #print("recall",recall_score(y_test, rfc_predict),"\n")
+    prec = precision_score(y_test, rfc_predict)
 
-    return score, recall_score(y_test, rfc_predict)
+    return score, recall_score(y_test, rfc_predict), prec
 
     #print('score_train:', RFC_var.score(X_train, y_train))
     # Sur apprentissage!
@@ -38,17 +38,20 @@ def evaluate(RFC_var):
 RFC = RandomForestClassifier(n_jobs=2,n_estimators=1)
 scores = np.zeros(10)
 recall = np.zeros(10)
+precs = np.zeros(10)
 
 for j in range(10):
-        RFC = RandomForestClassifier(n_jobs=2, n_estimators=1,max_depth=7)
-        scores[j], recall[j] = evaluate(RFC)
+        RFC = RandomForestClassifier(n_jobs=2, n_estimators=1,max_depth=7,class_weight='balanced')
+        scores[j], recall[j], precs[j] = evaluate(RFC)      
 
 #%%
 
-print(scores)
-print(recall)
+#print(scores)
+#print(recall)
+#print(precs)
 print(np.average(scores))
 print(np.average(recall))
+print(np.average(precs))
 
 #%%
 
@@ -57,12 +60,13 @@ plt.figure()
 samplesplits = np.arange(2,28,2)
 testvals = np.zeros(10*len(samplesplits))
 recallvals = np.zeros(10*len(samplesplits))
+precvals = np.zeros(10*len(samplesplits))
 
 for i in range(len(samplesplits)) :
 #for split in samplesplits:
     for j in range(10):
-        RFC_2 = RandomForestClassifier(n_jobs=2, n_estimators=100,min_samples_split=samplesplits[i])
-        testvals[i*10+j], recallvals[i*10+j] = evaluate(RFC_2)
+        RFC_2 = RandomForestClassifier(n_jobs=2, n_estimators=100,min_samples_split=samplesplits[i],class_weight='balanced')
+        testvals[i*10+j], recallvals[i*10+j], precvals[i*10+j] = evaluate(RFC_2)
         #plt.plot(samplesplits[i],recall,lw = 0,marker ='.',ms = 0.9)
 
 #%%
@@ -91,14 +95,27 @@ plt.plot(
     np.repeat(samplesplits,10),
     recallvals,
     lw=0,marker=".",ms = 1.5,color='k',
-    label = "individual accuracies")
+    label = "individual recalls")
 plt.plot(
     samplesplits,
     np.average(np.reshape(recallvals,(len(samplesplits),10)), axis=1),
     color = 'blue',
-    label="average"
+    label="average recall"
 )
-plt.ylabel("recall")
+
+plt.plot(
+    np.repeat(samplesplits,10),
+    precvals,
+    lw=0,marker=".",ms = 1.5,color='k',
+    label = "individual precisions")
+plt.plot(
+    samplesplits,
+    np.average(np.reshape(precvals,(len(samplesplits),10)), axis=1),
+    color = 'green',
+    label="average precision"
+)
+
+plt.ylabel("recall and precision")
 #plt.ylim(0.97,0.98)
 plt.xlabel("minimum samples split")
 plt.legend()
@@ -109,15 +126,16 @@ plt.show()
 
 plt.figure()
 
-depths = np.arange(2,15,1)
+depths = np.arange(2,20,1)
 testvals3 = np.zeros(10*len(depths))
 recallvals3 = np.zeros(10*len(depths))
+precvals3 = np.zeros(10*len(depths))
 
 for i in range(len(depths)) :
 #for split in samplesplits:
     for j in range(10):
-        RFC_3 = RandomForestClassifier(n_jobs=2, n_estimators=100,max_depth = depths[i])
-        testvals3[i*10+j], recallvals3[i*10+j] = evaluate(RFC_3)
+        RFC_3 = RandomForestClassifier(n_jobs=2, n_estimators=100,max_depth = depths[i],class_weight='balanced')
+        testvals3[i*10+j], recallvals3[i*10+j], precvals3[i*10+j] = evaluate(RFC_3)
 
 #%%
 
@@ -133,7 +151,7 @@ plt.plot(
     label="average"
 )
 plt.ylabel("accuracy")
-plt.ylim(0.97,0.98)
+plt.ylim(0.965,0.98)
 plt.xlabel("depth")
 plt.legend()
 plt.savefig("Graphics/forest_depths.pdf")
@@ -145,13 +163,26 @@ plt.plot(
     np.repeat(depths,10),
     recallvals3,
     lw=0,marker=".",ms = 1.5,color='k',
-    label = "individual accuracies")
+    label = "individual recalls")
 plt.plot(
     depths,
     np.average(np.reshape(recallvals3,(len(depths),10)), axis=1),
     color = 'blue',
-    label="average"
+    label="average recall"
 )
+
+plt.plot(
+    np.repeat(depths,10),
+    precvals3,
+    lw=0,marker=".",ms = 1.5,color='k',
+    label = "individual precisions")
+plt.plot(
+    depths,
+    np.average(np.reshape(precvals3,(len(depths),10)), axis=1),
+    color = 'green',
+    label="average precision"
+)
+
 plt.ylabel("recall")
 #plt.ylim(0.97,0.98)
 plt.xlabel("depth")
