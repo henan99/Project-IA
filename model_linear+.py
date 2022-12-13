@@ -6,7 +6,7 @@ from sklearn.metrics import confusion_matrix, roc_auc_score, recall_score, preci
 from sklearn.preprocessing import PolynomialFeatures
 from sklearn.decomposition import PCA
 
-X_train, X_test, y_train, y_test = prep.preprocess(seed=3)
+X_train, X_test, y_train, y_test = prep.preprocess(seed=0)
 poly = PolynomialFeatures(degree=2)
 X_train = poly.fit_transform(X_train)
 X_test = poly.transform(X_test)

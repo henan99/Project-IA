@@ -15,7 +15,7 @@ def data_as_vector():
                             'mean_dm', 'std_dm', 'kurtosis_dm', 'skewness_dm',"class"]
 
     features = pulsar_file_df.columns
-    print(features)
+    
     featureVector = pulsar_file_df[features[:-1]] #data vector
     targets = pulsar_file_df['class'] #labels
     
