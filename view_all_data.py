@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import numpy.polynomial.polynomial as poly
 from sklearn.preprocessing import StandardScaler
 from  sklearn.decomposition import PCA 
+import tensorflow as tf 
 from sklearn.model_selection import train_test_split
 
 
@@ -16,7 +17,7 @@ pulsar_file_df.columns = ['mean_ip', 'std_ip', 'kurtosis_ip', 'skewness_ip',
                           'mean_dm', 'std_dm', 'kurtosis_dm', 'skewness_dm',
                           'class']
 
-print(pulsar_file_df)
+#print(pulsar_file_df)
 
 
 #print(pulsar_file_df.head(10)[pulsar_file_df["class"]==0])
@@ -28,11 +29,10 @@ print(pulsar_file_df)
 #plt.figure(figsize=(8,6))
 #_= sns.heatmap(pulsar_file_df.drop(['class'], axis=1).corr(), annot=True)
 #plt.show()
-
-#plt.figure()
-#_ = sns.pairplot(pulsar_file_df, kind='scatter', hue='class', plot_kws=dict(ec='w'))
-#plt.show()#
-
+fig = plt.figure()
+_ = sns.pairplot(pulsar_file_df, kind='scatter', hue='class', plot_kws=dict(ec='w'))
+plt.show()#
+fig.savefig("pairplot_data.png")
 
 # doing PCA
 
@@ -71,6 +71,8 @@ x = np.arange(1,len(pcavalsratio)+1)
 plt.figure()
 plt.bar(x,pcavalsratio)
 plt.show()
+
+
 
 
 
