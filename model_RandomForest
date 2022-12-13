@@ -13,3 +13,4 @@ print(confusion_matrix(y_test, rfc_predict))
 score = RFC.score(X_test, y_test)
 print('scoreRFC:', score)
 print('score_train:', RFC.score(X_train, y_train))
+
