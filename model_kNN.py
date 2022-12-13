@@ -7,14 +7,14 @@ from sklearn.decomposition import PCA
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import GridSearchCV
 
-X_train, X_test, y_train, y_test = prep.preprocess(seed=4)
+X_train, X_test, y_train, y_test = prep.preprocess(seed=3)
 
 #%%
 
 kmax = 30
 parameters = {'n_neighbors':np.arange(1,kmax)}
 
-kNN = KNeighborsClassifier()
+kNN = KNeighborsClassifier() # avec weights= 'distance' ca danne une bonne precision (93.2%) sans bc calculation avec 7 neighbours
 model = GridSearchCV(kNN, parameters)
 model.fit(X_train, y_train)
 #%%

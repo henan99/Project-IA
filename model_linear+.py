@@ -6,7 +6,7 @@ from sklearn.metrics import confusion_matrix, roc_auc_score, recall_score, preci
 from sklearn.preprocessing import PolynomialFeatures
 from sklearn.decomposition import PCA
 
-X_train, X_test, y_train, y_test = prep.preprocess(seed=0)
+X_train, X_test, y_train, y_test = prep.preprocess(seed=3)
 poly = PolynomialFeatures(degree=2)
 X_train = poly.fit_transform(X_train)
 X_test = poly.transform(X_test)
@@ -18,7 +18,7 @@ X_test = pca.transform(X_test) """
 #%%
 
 C = np.logspace(-2, 2, 50)
-model = LogisticRegressionCV(Cs = C, penalty='l2', max_iter=1000)
+model = LogisticRegressionCV(Cs = C, penalty='l2', max_iter=1000, class_weight='balanced')
 
 model.fit(X_train, y_train)#, sample_weight = None)
 
