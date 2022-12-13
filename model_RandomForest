@@ -74,8 +74,75 @@ plt.show()
 
 #%%
 
-depths = np.arange(2,15,1)
+plt.plot(
+    np.repeat(samplesplits,10),
+    recallvals,
+    lw=0,marker=".",ms = 1.5,color='k',
+    label = "individual accuracies")
+plt.plot(
+    samplesplits,
+    np.average(np.reshape(recallvals,(len(samplesplits),10)), axis=1),
+    color = 'blue',
+    label="average"
+)
+plt.ylabel("recall")
+#plt.ylim(0.97,0.98)
+plt.xlabel("minimum samples split")
+plt.legend()
+plt.savefig("Graphics/forest_samplesplits_recall.pdf")
+plt.show()
 
-for dep in depths:
-    RFC_3 = RandomForestClassifier(n_jobs=2, n_estimators=100,max_depth = dep)
-    evaluate(RFC_3)
+#%%
+
+plt.figure()
+
+depths = np.arange(2,15,1)
+testvals3 = np.zeros(10*len(depths))
+recallvals3 = np.zeros(10*len(depths))
+
+for i in range(len(depths)) :
+#for split in samplesplits:
+    for j in range(10):
+        RFC_3 = RandomForestClassifier(n_jobs=2, n_estimators=100,max_depth = depths[i])
+        testvals3[i*10+j], recallvals3[i*10+j] = evaluate(RFC_3)
+
+#%%
+
+plt.plot(
+    np.repeat(depths,10),
+    testvals3,
+    lw=0,marker=".",ms = 1.5,color='k',
+    label = "individual accuracies")
+plt.plot(
+    depths,
+    np.average(np.reshape(testvals3,(len(depths),10)), axis=1),
+    color = 'blue',
+    label="average"
+)
+plt.ylabel("accuracy")
+plt.ylim(0.97,0.98)
+plt.xlabel("depth")
+plt.legend()
+plt.savefig("Graphics/forest_depths.pdf")
+plt.show()
+
+#%%
+
+plt.plot(
+    np.repeat(depths,10),
+    recallvals3,
+    lw=0,marker=".",ms = 1.5,color='k',
+    label = "individual accuracies")
+plt.plot(
+    depths,
+    np.average(np.reshape(recallvals3,(len(depths),10)), axis=1),
+    color = 'blue',
+    label="average"
+)
+plt.ylabel("recall")
+#plt.ylim(0.97,0.98)
+plt.xlabel("depth")
+plt.legend()
+plt.savefig("Graphics/forest_depths_recall.pdf")
+plt.show()
+# %%
