@@ -24,6 +24,7 @@ def data_as_vector():
 def check_missing():
     #chercher des données manquantes
     X,y = data_as_vector()
+    print("X shape:",X.shape,"y shape:",y.shape)
 
     if(np.sum(~np.isfinite(X)).aggregate(np.sum) == 0): # aggregate sums over different pandas categories
         print("no missing data in attributes")
