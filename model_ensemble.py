@@ -1,5 +1,9 @@
 
-# needs about a minute to compile, score > 0.980
+# the idea of this file ist to create a model in combining several models 
+# of two classes. One class with a very high percision and one with a very high recall.
+# the propositon for the first class was the SVC(c = 16, kernel='rbf') 
+# and for the second class the SVC(c = 1.27, kernel='rbf', class_weight='balanced').
+
 #%%
 import numpy as np
 from sklearn.svm import SVC
