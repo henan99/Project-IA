@@ -1,5 +1,4 @@
 
-# needs about a minute to compile, score > 0.980
 #%%
 import numpy as np
 from sklearn.svm import SVC
